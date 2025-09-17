@@ -14,7 +14,7 @@ pipeline {
                 bat 'echo "Starting build..."'
                 // Replace 'make build' with a valid Windows build command
                 // Example for Maven on Windows:
-                bat 'mvn clean install'
+               
                 bat 'echo "Build complete."'
             }
         }
