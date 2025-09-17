@@ -1,37 +1,41 @@
 pipeline {
-  agent any 
- 
-  stages 
-  {
-      stage('checkout')
-     {
-            steps 
-            {
-               checkout scm
-            }
-      }
-      stage('Build') {
+    agent any
+
+    stages {
+        stage('Checkout') {
             steps {
-                sh 'echo "Starting build..."'
-                sh 'make build'
-                sh 'echo "Build complete."'
+                checkout scm
             }
         }
 
-     stage('Test') {
+        stage('Build') {
             steps {
-                sh 'echo "Running tests..."'
-                sh './jenkins/scripts/test.sh'
-                sh 'echo "Tests passed."'
+                // Change 'sh' to 'bat' for Windows batch commands
+                bat 'echo "Starting build..."'
+                // Replace 'make build' with a valid Windows build command
+                // Example for Maven on Windows:
+                bat 'mvn clean install'
+                bat 'echo "Build complete."'
             }
         }
 
-      stage('Deploy') {
+        stage('Test') {
+            steps {
+                // Similarly, change 'sh' to 'bat' for your test command
+                bat 'echo "Running tests..."'
+                // Example for a .NET test command on Windows:
+                // bat 'dotnet test'
+                bat 'echo "Tests passed."'
+            }
+        }
+
+        stage('Deploy') {
             when {
                 branch 'main'
             }
             steps {
-                sh 'echo "Deploying to production..."'
+                bat 'echo "Deploying to production..."'
+                // Add your Windows-based deployment commands here.
             }
         }
     }
